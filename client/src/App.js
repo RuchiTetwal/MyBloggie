@@ -1,31 +1,34 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import {BrowserRouter} from 'react-router-dom';
 
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
-
+import AppWithRouterAccess from './AppWithRouterAccess'
+import ContextProvider from './context/ContextProvider';
 //components
-import Header from './components/Header';
-import Home from './components/home/Home';
-import DetailView from './components/post/DetailView';
-import CreateView from './components/post/CreateView';
-import UpdateView from './components/post/UpdateView';
+//import Header from './components/Header';
+//import Home from './components/home/Home';
+//import Detail from './components/post/Detail';
+//import Create from './components/post/Create';
+//import Update from './components/post/Update';
 
 function App() {
   return (
+    <ContextProvider>
     <BrowserRouter>
+      <AppWithRouterAccess/>
+       {/* <Header/>
 
-      <Header/>
-      <Box style={{marginTop: 64}}>
-      <Switch>
-        <Route exact path='/' component={Home}/>
-        <Route exact path='/details' component={DetailView}/>
-        <Route exact path='/create' component={CreateView}/>
-        <Route exact path='/update' component={UpdateView}/>
-      </Switch>
-      </Box>
-      
-    </BrowserRouter>
-    
+       <Box style={{marginTop:64}}>
+        <Switch>
+          <Route exact path='/' component={Home}/>
+          <Route exact path='/details/:id' component={Detail}/>
+          <Route exact path='/create' component={Create}/>
+          <Route exact path='/update/:id' component={Update}/>
+        </Switch>
+        
+       </Box> */}
+     </BrowserRouter> 
+    </ContextProvider>
+   
   );
 }
 

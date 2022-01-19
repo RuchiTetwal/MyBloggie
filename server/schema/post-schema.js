@@ -1,33 +1,32 @@
-import  mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const PostSchema = mongoose.Schema({
-    title:{
-        type:String,
+    title: {
+        type: String,
         required: true,
-        unique:true
+        unique: true
     },
-    description:{
-        type:String,
+    description: {
+        type: String,
         required: true
-
     },
-    picture:{
-        type:String,
-        required:false
-    },
-    username:{
-        type:String,
-        required:true
-    },
-    categories:{
-        type:String,
+    picture: {
+        type: String,
         required: false
     },
-    createdDate:{
-        type:Date,
+    username: {
+        type: String,
+        required: true
+    },
+    categories: {
+        type: Array,
+        required: false   
+    },
+    createdDate: {
+        type: Date
     }
+});
 
-})
 
 const post = mongoose.model('post', PostSchema);
 

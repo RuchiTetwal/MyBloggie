@@ -1,36 +1,70 @@
-import {AppBar, makeStyles, Toolbar, Typography} from '@material-ui/core';
-import { mergeClasses } from '@material-ui/styles';
-import {Link} from 'react-router-dom';
+import { AppBar, Toolbar, makeStyles, Button } from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { useOktaAuth } from '@okta/okta-react';
 
 const useStyles = makeStyles({
-    appbar:{
+    component: {
         background: '#FFFFFF',
-        color: 'black'
+        color: 'black',
+
     },
-    toolbar:{
+    container: {
         justifyContent: 'center',
-        '& > *':{
-            padding:20
+        '&  >*': {
+            padding: 20,
+            color: 'black',
+            textDecoration: 'none'
         }
+
     },
-    link:{
-        textDecoration:'none',
-        color:'inherit'
-    }
+    link: { textDecoration: 'none', color: 'inherit' }
 })
+
+
 
 const Header = () => {
     const classes = useStyles();
-    return(
-        <AppBar className={classes.appbar}>
-            <Toolbar className = {classes.toolbar}>
-                <Link className ={classes.link} to='/'><Typography>HOME</Typography></Link>
-                <Typography>ABOUT</Typography>
-                <Typography>CONTACT</Typography>
-                <Typography>LOGIN</Typography>
-            </Toolbar>
-        </AppBar>
+
+    const history = useHistory();
+
+    const { oktaAuth, authState } = useOktaAuth();
+
+    if (authState && authState.isPending) return null;
+
+
+    const login = async () => history.push('/login');
+
+    const logout = async () => oktaAuth.signOut();
+
+    const button = authState.isAuthenticated ?
+        <Button onClick={logout} style={{
+            background: 'unset',
+            border: 'none',
+            fontSize: 17,
+            textTransform: 'uppercase',
+            fontFamily: 'Roboto',
+            cursor: 'pointer',
+            opacity: 0.8
+        }}>LOGOUT</Button> :
+        <Button onClick={login}>LOGIN</Button>;
+
+    return (
+        <>
+            <AppBar className={classes.component}>
+                <Toolbar className={classes.container}>
+                    <Link to='/' className={classes.link}>
+                    HOME
+                    </Link>
+                    <Link>
+                        {button}
+                    </Link>
+                    
+                </Toolbar>
+
+            </AppBar>
+        </>
     )
+
 }
 
 export default Header;
